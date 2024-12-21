@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { BrowserRouter } from 'react-router-dom'; 
+
 import './App.css'
 import HorizontalNavbar from './components/HorizontalNavbar/HorizontalNavbar'
 import LoginPage from './components/LoginPage/LoginPage'
@@ -7,7 +9,21 @@ function App() {
 
   return (
     <>
-      <HorizontalNavbar tags={{"timetable" : "#","Mail(mashov)" : "#", "Tests" : "#","vactions" : "#","grades" : "#", "Login" :"#"}}/>
+        <BrowserRouter> {/* Wrap your entire app in BrowserRouter */}
+          <div>
+            <HorizontalNavbar 
+              tags={{
+                "timetable": "/timetable",
+                "Mail(mashov)": "/mail",
+                "Tests": "/tests",
+                "vactions": "/vactions",
+                "grades": "/grades",
+                "Login": "/login"
+              }}
+            />
+            <LoginPage />
+          </div>
+      </BrowserRouter>
       <LoginPage />
     </>
   )
