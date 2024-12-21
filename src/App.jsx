@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import './App.css'
 import HorizontalNavbar from './components/HorizontalNavbar/HorizontalNavbar'
@@ -8,24 +8,26 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-        <BrowserRouter> {/* Wrap your entire app in BrowserRouter */}
-          <div>
-            <HorizontalNavbar 
-              tags={{
-                "timetable": "/timetable",
-                "Mail(mashov)": "/mail",
-                "Tests": "/tests",
-                "vactions": "/vactions",
-                "grades": "/grades",
-                "Login": "/login"
-              }}
-            />
-            <LoginPage />
-          </div>
-      </BrowserRouter>
-      <LoginPage />
-    </>
+    <Router>
+      <div>
+        <HorizontalNavbar 
+          tags={{
+            "Home": "/",
+            "Login": "/login",
+            "timetable": "/timetable",
+            "Mail(mashov)": "/mail",
+            "Tests": "/tests",
+            "vactions": "/vactions",
+            "grades": "/grades",
+          }}
+        />
+        
+        <Routes>
+          <Route path="/" element={<h1>Welcome Home</h1>} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
