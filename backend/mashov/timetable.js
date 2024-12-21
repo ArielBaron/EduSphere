@@ -1,5 +1,5 @@
-const mashov = require('mashov-api');
-const fs = require('fs');
+import mashov from 'mashov-api';
+import fs from 'fs';
 
 const fetchTimetable = async (credentials) => {
     const { SEMEL, YEAR, ID, PASSWORD } = credentials;
@@ -13,4 +13,4 @@ const fetchTimetable = async (credentials) => {
     }
 };
 
-module.exports = fetchTimetable;
+export default fetchTimetable;

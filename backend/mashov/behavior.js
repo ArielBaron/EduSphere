@@ -1,5 +1,5 @@
-const mashov = require('mashov-api');
-const fs = require('fs');
+import mashov from 'mashov-api';
+import fs from 'fs';
 
 const fetchBehavior = async (credentials) => {
     const { SEMEL, YEAR, ID, PASSWORD } = credentials;
@@ -13,4 +13,4 @@ const fetchBehavior = async (credentials) => {
     }
 };
 
-module.exports = fetchBehavior;
+export default fetchBehavior;

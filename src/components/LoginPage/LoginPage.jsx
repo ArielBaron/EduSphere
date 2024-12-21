@@ -3,7 +3,7 @@ function LoginPage(){
     return (
         <>
             <img src="EduSphereLogo.png" alt=""/>
-            <form action="GET">
+            <form action="/submit" method="GET">
                 <label htmlFor="id-inp">Please Provide your ID Number.</label> 
                 <input type="text" name="" id="id-inp"/>
 

@@ -1,5 +1,5 @@
-const mashov = require('mashov-api');
-const fs = require('fs');
+import mashov from 'mashov-api';
+import fs from 'fs';
 
 const fetchGrades = async (credentials) => {
     const { SEMEL, YEAR, ID, PASSWORD } = credentials;
@@ -13,4 +13,4 @@ const fetchGrades = async (credentials) => {
     }
 };
 
-module.exports = fetchGrades;
+export default fetchGrades
