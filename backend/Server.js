@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import bodyParser from 'body-parser';; 
 // Funcs for fetching mashov data
 import fetchTimetable from './mashov/timetable.js'
@@ -7,7 +6,6 @@ import fetchBehavior from './mashov/behavior.js';
 import fetchGrades  from './mashov/grades.js'
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
