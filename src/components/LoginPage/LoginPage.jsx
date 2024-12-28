@@ -14,7 +14,7 @@ function LoginPage() {
           <input type="text" name="semel" id="semel-inp" />
   
           <label htmlFor="class-inp">Please write your class:</label>
-          <input type="text" name="class" id="class-inp" />
+          <input type="text" name="userClass" id="class-inp" />
   
           <label htmlFor="password-inp">Please write your Mashov password:</label>
           <input type="password" name="password" id="password-inp" />
