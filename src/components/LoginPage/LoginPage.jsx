@@ -6,7 +6,9 @@ function LoginPage() {
     return (
       <>
         <img src="EduSphereLogo.png" alt="" />
-        <form action="http://localhost:3000/submit" method="GET">
+        <label htmlFor="auto-complete-inp">Enter a .txt or .json file for auto complete</label>
+        <input type="file" name="AutoCompleteFile" id="auto-complete-inp" accept=".txt, .json "/>
+        <form action={`http://localhost:3000/submit`} method="GET">
           <label htmlFor="id-inp">Please Provide your ID Number.</label>
           <input type="text" name="id" id="id-inp" />
   

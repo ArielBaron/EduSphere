@@ -14,11 +14,6 @@ function App() {
           tags={{
             "Home": "/",
             "Login": "/login",
-            "timetable": "/timetable",
-            "Mail(mashov)": "/mail",
-            "Tests": "/tests",
-            "vactions": "/vactions",
-            "grades": "/grades",
           }}
         />
         
