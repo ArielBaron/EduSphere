@@ -10,3 +10,12 @@ img{
     height: 500px;
     width: 500px;
 }
+#auto-complete-inp{
+    width: 200px;
+    height: 50px;
+    padding-top: 20px;
+    background-color: antiquewhite;
+    position: "relative";
+    overflow: "hidden";
+    border: "1px solid #ccc";
+}
