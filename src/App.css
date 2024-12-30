@@ -1,3 +1,13 @@
 body{
     background-color: #FAFAFA;
 }
+footer{
+    width: 100%;
+    text-align: left; /* Align footer text to the left */
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    color: #777;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}

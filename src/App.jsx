@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import HorizontalNavbar from './components/HorizontalNavbar/HorizontalNavbar'
 import LoginPage from './components/LoginPage/LoginPage'
+import HomePage from './components/HomePage/HomePage';
+import AboutPage from './components/AboutPage/AboutPage';
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -13,14 +16,21 @@ function App() {
         <HorizontalNavbar 
           tags={{
             "Home": "/",
+            "General":"/general",
+            "Mashov Based Info":"/personal",
+            "About":"/about",
             "Login": "/login",
           }}
         />
-        
         <Routes>
-          <Route path="/" element={<h1>Welcome Home</h1>} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="about" element={<AboutPage />}/>
           <Route path="/login" element={<LoginPage />} />
+
         </Routes>
+        <footer>
+            <p>&copy; Ariel Baron 2024 eduSphere. All rights reserved.</p>
+        </footer>
       </div>
     </Router>
   )

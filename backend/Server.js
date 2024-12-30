@@ -132,8 +132,10 @@ app.get('/submit', async (req, res) => {
   const behaviorData = await getBehavior(loginInfo);
   const iscoolTimetableAndChangesData = await getIsCoolTimetableAndChanges(loginInfo);
   const mashovTimetableData = await getMashovTimetable(loginInfo);
-  console.log(mashovTimetableData)
+
+
   res.status(200).json({ message: 'Form submitted successfully', data: req.query });  // Use req.query here as well
+  res.redirect("/personal-info")
 });
 
 app.listen(PORT, () => {

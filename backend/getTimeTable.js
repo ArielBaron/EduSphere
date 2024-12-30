@@ -150,6 +150,7 @@ async function getTimetableAndChanges(credentials) {
     
     await page2.select(classSelectElm, classValue);
     
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
     const tableData = await page2.evaluate((selector) => {
       const table = document.querySelector(selector);
