@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const fetchTimetable = async (credentials) => {
-    
     const { SEMEL, YEAR, ID, PASSWORD } = credentials;
     try {
         const loginInfo = await mashov.loginToMashov(SEMEL, YEAR, ID, PASSWORD);
@@ -17,11 +16,4 @@ const fetchTimetable = async (credentials) => {
         throw error;
     }
 };
-// const loginInfo =  {
-//     "ID": process.env.REACT_APP_EX_ID,
-//     "PASSWORD": process.env.REACT_APP_EX_PASSWORD,
-//     "SEMEL": process.env.REACT_APP_EX_SEMEL,
-//     "YEAR": new Date().getFullYear()+1,
-// }
-
 export default fetchTimetable;

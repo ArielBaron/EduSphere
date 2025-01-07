@@ -34,18 +34,18 @@ function HomePage() {
                         </Link>
                     </div>
                 </section>
-                <Link to="/general">                
                     <section className="cta-section">
                         <h2 className="section-title">Dont wanna log in?</h2>
-                        <button className="cta-button">Explore anonymously Now!</button>
+                        <Link to="/general">                
+                            <button className="cta-button">Explore anonymously Now!</button>
+                        </Link>
                     </section>
-                </Link>
-                <Link to="/login">                
                     <section className="cta-section">
                         <h2 className="section-title">Already familar?</h2>
-                        <button className="cta-button">Login</button>
+                        <Link to="/login">                
+                            <button className="cta-button">Login</button>
+                        </Link>
                     </section>
-                </Link>
             </div>
 
         </div>

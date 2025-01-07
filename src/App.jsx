@@ -6,7 +6,7 @@ import HorizontalNavbar from './components/HorizontalNavbar/HorizontalNavbar'
 import LoginPage from './components/LoginPage/LoginPage'
 import HomePage from './components/HomePage/HomePage';
 import AboutPage from './components/AboutPage/AboutPage';
-
+import PersonalPage from './components/PersonalPage/PersonalPage';
 function App() {
   const [count, setCount] = useState(0)
 
@@ -26,7 +26,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="about" element={<AboutPage />}/>
           <Route path="/login" element={<LoginPage />} />
-
+          <Route path='/personal' element={<PersonalPage/>}/>
         </Routes>
         <footer>
             <p>&copy; Ariel Baron 2024 eduSphere. All rights reserved.</p>

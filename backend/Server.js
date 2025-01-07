@@ -5,9 +5,14 @@ import fetchBehavior from './mashov/behavior.js';
 import fetchGrades  from './mashov/grades.js'
 import fetchTimetable from './mashov/timetable.js';
 import getIsCoolTimetableAndChanges from './getTimeTable.js';
+import cors from 'cors'; // Import cors package
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+const FRONTEND_PORT = process.env.REACT_APP_FRONTEND_PORT;
 
+
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -118,25 +123,42 @@ const getGrades = async (loginInfo) => {
   return { subjectGrades, gradesData: processedGrades };
 };
 
+function getIsraeliSchoolYear() {
+  const date = new Date();
+  const year = date.getFullYear();
+  return date.getMonth() > 5? year+1: year;
+}
 
-app.get('/submit', async (req, res) => {
-  const { id, semel,  userClass, password } = req.query;  // Change req.body to req.query
+app.post('/submit', async (req, res) => {
+  const { id, semel,  userClass, password } = req.body;  // Change req.body to req.query
+  let iscoolTimetableAndChangesData=[];
   const loginInfo =  {
     "SEMEL": semel,
     "ID": id,
     "PASSWORD": password,
     "CLASS": userClass,
-    "YEAR": new Date().getFullYear() + 1
+    "YEAR": getIsraeliSchoolYear()
   }
   const gradesData = await getGrades(loginInfo);
   const behaviorData = await getBehavior(loginInfo);
-  const iscoolTimetableAndChangesData = await getIsCoolTimetableAndChanges(loginInfo);
+  try {
+    iscoolTimetableAndChangesData = await getIsCoolTimetableAndChanges(loginInfo);
+  } catch (error) {
+    iscoolTimetableAndChangesData = undefined;
+    console.log(error)
+  }
   const mashovTimetableData = await getMashovTimetable(loginInfo);
-
-
-  res.status(200).json({ message: 'Form submitted successfully', data: req.query });  // Use req.query here as well
-  res.redirect("/personal-info")
+ 
+  const personalData = {
+    grades: gradesData,
+    behavior: behaviorData,
+    iscool: iscoolTimetableAndChangesData,
+    mashovTimetable: mashovTimetableData
+  };
+  res.json({ message: "Good", data: personalData });
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

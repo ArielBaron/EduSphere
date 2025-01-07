@@ -192,6 +192,7 @@ async function getTimetableAndChanges(credentials) {
     
     
     // Part 3
+    let changesTable=[]
     const browser3 = await puppeteer.launch({headless:true});
     const page3 = await browser3.newPage();
     await page3.goto(timetableUrl);
@@ -205,12 +206,14 @@ async function getTimetableAndChanges(credentials) {
     },changesCmd)
     
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    await page3.waitForSelector(changesTableSelector, {visible:true})
-    const changesTable = await page3.evaluate((selector) => {
-      // Select all matching elements and return their text content
-      return Array.from(document.querySelectorAll(selector), element => element.textContent.trim());
-  }, changesTableSelector + " tr td.MsgCell");
+    if (await page3.$(  changesTableSelector + " tr")){ // If no changes skip
+
+        await page3.waitForSelector(changesTableSelector, {visible:true})
+        changesTable = await page3.evaluate((selector) => {
+          // Select all matching elements and return their text content
+          return Array.from(document.querySelectorAll(selector), element => element.textContent.trim());
+      }, changesTableSelector + " tr td.MsgCell");
+    }
   browser3.close();
   return [tableData,changesTable]
 
