@@ -27,6 +27,11 @@ function App() {
           <Route path="about" element={<AboutPage />}/>
           <Route path="/login" element={<LoginPage />} />
           <Route path='/personal' element={<PersonalPage/>}/>
+          <Route path='/personal/homework' element={<PersonalPage/>}></Route>
+          <Route path='/personal/grades' element={<PersonalPage/>}></Route>
+          <Route path='/personal/vactions' element={<PersonalPage/>}></Route>
+          <Route path='/personal/timetable' element={<PersonalPage/>}></Route>
+          <Route path='/personal/tests' element={<PersonalPage/>}></Route>
         </Routes>
         <footer>
             <p>&copy; Ariel Baron 2024 eduSphere. All rights reserved.</p>

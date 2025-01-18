@@ -147,15 +147,18 @@ app.post('/submit', async (req, res) => {
     iscoolTimetableAndChangesData = undefined;
     console.log(error)
   }
-  const mashovTimetableData = await getMashovTimetable(loginInfo);
- 
-  const personalData = {
-    grades: gradesData,
-    behavior: behaviorData,
-    iscool: iscoolTimetableAndChangesData,
-    mashovTimetable: mashovTimetableData
-  };
-  res.json({ message: "Good", data: personalData });
+  finally{
+    const mashovTimetableData = await getMashovTimetable(loginInfo);
+   
+    const personalData = {
+      grades: gradesData,
+      behavior: behaviorData,
+      iscool: iscoolTimetableAndChangesData,
+      mashovTimetable: mashovTimetableData
+    };
+    res.json({ message: "Good", data: personalData });
+
+  }
 });
 
 

@@ -8,7 +8,7 @@ const semelSelector = "#schoolSelector";
 const idSelector = "#usernameInput";
 const passwordSelector = "#passwordInput";
 const menuSelector = "#mshv-main-toolbar > button:nth-child(1) > span.mat-mdc-button-touch-target";
-const timetableButton = "#mainMenu > ul > li:nth-child(32)";
+const timetableButton = "#mainMenu > ul > li:nth-child(33) > button > span.mdc-button__label > div > span";
 const tableSelector = ".TTTable";
 const classSelectElm = "select";
 const changesTableSelector = ".DNNAlignright div div.placeholder div table";
@@ -98,7 +98,7 @@ async function getTimetableAndChanges(credentials) {
     await page1.keyboard.press('Enter');
     await awaitAndClick(page1,menuSelector);
 
-    
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page1.waitForSelector(timetableButton, { visible: true });
     await page1.click(timetableButton);
     
@@ -193,7 +193,7 @@ async function getTimetableAndChanges(credentials) {
     
     // Part 3
     let changesTable=[]
-    const browser3 = await puppeteer.launch({headless:true});
+    const browser3 = await puppeteer.launch({headless: true});
     const page3 = await browser3.newPage();
     await page3.goto(timetableUrl);
 
@@ -226,5 +226,6 @@ const loginInfo =  {
   "PASSWORD": process.env.REACT_APP_EX_PASSWORD,
   "CLASS": process.env.REACT_APP_EX_CLASS 
 }
+// console.log(await getTimetableAndChanges(loginInfo)); // Test output
 // Export
 export default getTimetableAndChanges;
