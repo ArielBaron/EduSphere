@@ -2,15 +2,32 @@ import { useLocation } from "react-router-dom";
 import HorizontalNavbar from "../HorizontalNavbar/HorizontalNavbar.jsx";  // Import the Navbar
 import VacationElement from "./VactionElement/VactionElement.jsx";  
 import TestsElement from "./TestsElement/TestsElement.jsx";
-import GradesElement from   "./GradesElement/GradesElement.jsx";
+import GradesElement from "./GradesElement/GradesElement.jsx";
+
 function PersonalPage() {
   const location = useLocation();  // Get the location object
   const personalData = location.state?.data;  // Access the personal data from the state
-  let pageState = location.pathname;
-  console.log(pageState)
+  const pageState = location.pathname;
+  console.log(pageState);
+  let grades = "";
+  let behavior = "";
+  let iscool = "";
+  let mashovTimetable = "";
+  if(localStorage.getItem("personalData") === null){
+    localStorage.setItem("personalData",JSON.stringify(personalData))
+  }
+  else{
+    grades = JSON.parse(localStorage.getItem("personalData")).grades;
+    behavior = JSON.parse(localStorage.getItem("personalData")).behavior;
+    iscool = JSON.parse(localStorage.getItem("personalData")).iscool;
+    mashovTimetable = JSON.parse(localStorage.getItem("personalData")).mashovTimetable;
+
+    console.log(grades);
+  }
   // Example of props to be passed to HorizontalNavbar
   const navbarProps = {
     tags: {
+      "home": "/personal",
       "grades": "/personal/grades",
       "timetable and Changes": "/personal/timetable",
       "Vactions": "/personal/vactions",
@@ -18,46 +35,55 @@ function PersonalPage() {
       "homework": "/personal/homework"
     }
   };
-  if(pageState === "/personal/grades"){
-    return(
-      <div>
-      
-        <HorizontalNavbar tags={navbarProps.tags} />
-      </div>
-    )
+
+  let content="";
+  switch (pageState) {
+    case "/personal/grades":
+      content = <GradesElement grades={grades}/>;
+      break;
+    case "/personal/homework":
+      content = <div>Homework content goes here</div>;
+      break;
+    case "/personal/vactions":
+      content = <VacationElement />;
+      break;
+    case "/personal/tests":
+      content = <TestsElement />;
+      break;
+    case "/personal":
+      content = (
+        <div>
+          <h1>Personal Data</h1>
+          {personalData ? (
+            <div>
+              <h2>Grades</h2>
+              <pre>{ JSON.stringify(grades, null, 2)}</pre>
+
+              <h2>Behavior</h2>
+              <pre>{ JSON.stringify(behavior, null, 2)}</pre>
+
+              <h2>IsCool Timetable and Changes</h2>
+              <pre>{ JSON.stringify(iscool, null, 2)}</pre>
+
+              <h2>Mashov Timetable</h2>
+              <pre>{ JSON.stringify(mashovTimetable, null, 2)}</pre>
+            </div>
+          ) : (
+            <p>No personal data available.</p>
+          )}
+        </div>
+      );
+      break;
+    default:
+      break;
   }
-  else if(pageState = "/personal/homework"){
-    return(
-      
+
+  return (
+    <div>
       <HorizontalNavbar tags={navbarProps.tags} />
-    )
-  }
-  else if (pageState=="/personal"){
-    return (
-      <div>
-        <HorizontalNavbar tags={navbarProps.tags} />
-        
-        <h1>Personal Data</h1>
-        {personalData ? (
-          <div>
-            <h2>Grades</h2>
-            <pre>{JSON.stringify(personalData.grades, null, 2)}</pre>
-
-            <h2>Behavior</h2>
-            <pre>{JSON.stringify(personalData.behavior, null, 2)}</pre>
-
-            <h2>IsCool Timetable and Changes</h2>
-            <pre>{JSON.stringify(personalData.iscool, null, 2)}</pre>
-
-            <h2>Mashov Timetable</h2>
-            <pre>{JSON.stringify(personalData.mashovTimetable, null, 2)}</pre>
-          </div>
-        ) : (
-          <p>No personal data available.</p>
-        )}
-      </div>
-    );
-  }
+      {content}
+    </div>
+  );
 }
 
 export default PersonalPage;

@@ -15,7 +15,7 @@ function LoginPage() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const inputs = JSON.parse(e.target.result)[0];
+        const inputs = JSON.parse(e.target.result);
         setId(inputs["ID"]);
         setSemel(inputs["SEMEL"]);
         setPassword(inputs["PASSWORD"]);

@@ -220,12 +220,13 @@ async function getTimetableAndChanges(credentials) {
   }
 
 // Testing Example:
-const loginInfo =  {
-  "SEMEL": process.env.REACT_APP_EX_SEMEL,
-  "ID": process.env.REACT_APP_EX_ID,
-  "PASSWORD": process.env.REACT_APP_EX_PASSWORD,
-  "CLASS": process.env.REACT_APP_EX_CLASS 
-}
+// const loginInfo =  {
+//   "SEMEL": process.env.REACT_APP_SEMEL,
+//   "ID": process.env.REACT_APP_ID,
+//   "PASSWORD": process.env.REACT_APP_PASSWORD,
+//   "CLASS": process.env.REACT_APP_CLASS 
+// }
+
 // console.log(await getTimetableAndChanges(loginInfo)); // Test output
 // Export
 export default getTimetableAndChanges;

@@ -56,7 +56,6 @@ const getMashovTimetable = async(loginInfo) => {
 
     return timetableByDay;
 };
-
 // Process and filter behavior data
 const getBehavior = async(loginInfo) => {
 
@@ -139,6 +138,7 @@ app.post('/submit', async (req, res) => {
     "CLASS": userClass,
     "YEAR": getIsraeliSchoolYear()
   }
+
   const gradesData = await getGrades(loginInfo);
   const behaviorData = await getBehavior(loginInfo);
   try {
