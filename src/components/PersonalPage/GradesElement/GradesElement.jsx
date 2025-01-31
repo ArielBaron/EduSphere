@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./GradesElement.css"
 const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -14,7 +14,7 @@ const formatDate = (timestamp) => {
     // Format the output as "dd/mm/yy hh:mm:ss"
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   };
-  function filterGrades(gradesData) {
+  function filterByGrades(gradesData) {
     const gradedEntries = [];
     const nullGrades = [];
   
@@ -32,12 +32,65 @@ const formatDate = (timestamp) => {
     // Merge the valid grades and null grades
     return [...gradedEntries, ...nullGrades];
   }
-const genGradeTable = (gradesData,order) => {
-    if(order==="grade"){
-        gradesData = filterGrades(gradesData);
+function filterByTeacherName(gradesData){
+    const orderedList = [];
+    gradesData.grades.gradesData.forEach(entry => {
+        orderedList.push(entry);
+    });
+    return orderedList.sort((a,b) => a.teacherName.localeCompare(b.teacherName));
+}
+function filterBySubject(gradesData) {
+    const orderedList = [];
+    const groupNameGroups = {};
+
+    // Group objects by subject
+    gradesData.grades.gradesData.forEach(entry => {
+        if (!groupNameGroups[entry.groupName]) {
+            groupNameGroups[entry.groupName] = [];
+        }
+        groupNameGroups[entry.groupName].push(entry);
+    });
+
+    // Flatten the subjectGroups into orderedList
+    for (let groupName in groupNameGroups) {
+        orderedList.push(...groupNameGroups[groupName]);
     }
-    return(
-        <table border="1">
+    return orderedList;
+}
+
+function filterByDate(gradesData){
+    const orderedList = [];
+    gradesData.grades.gradesData.forEach(entry => {
+        orderedList.push(entry);
+    });
+    orderedList.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+
+    
+    
+    return orderedList;
+}
+
+  const genGradeTable = (gradesData, order) => {
+    let filteredGradesData;
+    if (order === "grade") {
+        filteredGradesData = filterByGrades(gradesData);
+    }
+    else if(order == "teacherName"){
+        filteredGradesData = filterByTeacherName(gradesData);
+    }
+    else if(order == "subject"){
+        filteredGradesData = filterBySubject(gradesData);
+    }
+    else if(order == "date"){
+        filteredGradesData = filterByDate(gradesData);
+    } 
+    else {
+        filteredGradesData = [];
+    }
+
+    return (
+        <table id="gradesTable" border="1">
             <thead>
                 <tr>
                     <th>ציונים</th>
@@ -49,40 +102,39 @@ const genGradeTable = (gradesData,order) => {
             </thead>
 
             <tbody>
-            {gradesData.grades.gradesData.map((grade, index) => (
-                <tr key={index}>                                  
-                    <td>{grade.grade ? grade.grade : "לא ניתנה ציון"}</td>
-                    <td>{grade.groupName}</td>
-                    <td>{grade.gradingEvent}</td>
-                    <td>{formatDate(grade.timestamp)}</td>
-                    <td>{grade.teacherName}</td>
-                    
-                    
-                </tr>
-            ))}
+                {filteredGradesData.map((grade, index) => (
+                    <tr key={index}>
+                        <td>{grade.grade ? grade.grade : "לא ניתנה ציון"}</td>
+                        <td>{grade.groupName}</td>
+                        <td>{grade.gradingEvent}</td>
+                        <td>{formatDate(grade.timestamp)}</td>
+                        <td>{grade.teacherName}</td>
+                    </tr>
+                ))}
             </tbody>
-
         </table>
     );
-}
+};
+
 const GradesElement = (grades) => {
-    const gradesObj = grades;
-    let gradeTable = genGradeTable(gradesObj,document.getElementById("sorter")? document.getElementById("sorter").value : null);
+    
+    const handleSelectChange = (event) => {
+        setOrder(event.target.value)
+    }
+    const [order, setOrder] = useState("date");
+
+    
+    const gradesObj = grades; 
+    let gradeTable = genGradeTable(gradesObj,order);
     return (
-        <div>
-            <select name="sorter" defaultValue={"grade"}  id="sorter">
+        <div >
+            <select name="sorter" defaultValue={"grade"} onChange={handleSelectChange} id="sorter">
                 <option value="grade">ציון</option>
                 <option value="teacherName">שם המורה</option>
                 <option value="subject">מקצוע</option>
                 <option  value="date">תאריך</option>
-            </select>
-            
+            </select>            
             {gradeTable}
-            {gradesObj.grades.gradesData.map((grade, index) => (
-                console.log(grade)
-                
-            ))}
-            { JSON.stringify(gradesObj, null, 2)}
         </div>
     );
 };

@@ -60,7 +60,7 @@ function LoginPage() {
   
 
   return (
-    <>
+    <div>
       <img src="EduSphereLogo.png" alt="EduSphere Logo" />
       <input
         type="file"
@@ -108,7 +108,7 @@ function LoginPage() {
 
         <button type="submit">Submit</button>
       </form>
-    </>
+    </div>
   );
 }
 
