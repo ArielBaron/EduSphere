@@ -13,7 +13,33 @@ const tableSelector = ".TTTable";
 const classSelectElm = "select";
 const changesTableSelector = ".DNNAlignright div div.placeholder div table";
 
+function parseScheduleData(data) {
+  const categorizedData = {};
 
+  data.forEach(item => {
+    const parts = item.split(',').map(part => part.trim());
+
+    const date = parts[0];
+    const lessonHour = parseInt(parts[1].replace('שעור ', ''));
+    const teacher = parts[2].includes('תוספת') ? null : parts[2];
+    const note = parts[3] || parts[2];
+
+    const typeOfChange = note.includes('ביטול') ? 'Cancellation' : note.includes('תוספת') ? 'Addition' : 'Note';
+
+    if (!categorizedData[date]) {
+      categorizedData[date] = [];
+    }
+
+    categorizedData[date].push({
+      typeOfChange,
+      teacherName: teacher,
+      lessonHour,
+      note
+    });
+  });
+
+  return categorizedData;
+}
 const awaitAndClick = async (page, selector) => {
     try {
       await page.waitForSelector(selector, {visible: true});
@@ -151,8 +177,8 @@ async function getTimetableAndChanges(credentials) {
     await page2.select(classSelectElm, classValue);
     
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const tableData = await page2.evaluate((selector) => {
+    let tableData="";
+    tableData = await page2.evaluate((selector) => {
       const table = document.querySelector(selector);
       const rows = Array.from(table.querySelectorAll('tr'));
       
@@ -212,21 +238,23 @@ async function getTimetableAndChanges(credentials) {
         changesTable = await page3.evaluate((selector) => {
           // Select all matching elements and return their text content
           return Array.from(document.querySelectorAll(selector), element => element.textContent.trim());
-      }, changesTableSelector + " tr td.MsgCell");
+        }, changesTableSelector + " tr td.MsgCell");
     }
   browser3.close();
+  console.log(tableData)
+  tableData = JSON.parse(tableData);
+  changesTable = parseScheduleData(changesTable);
   return [tableData,changesTable]
 
   }
 
-// Testing Example:
-// const loginInfo =  {
-//   "SEMEL": process.env.REACT_APP_SEMEL,
-//   "ID": process.env.REACT_APP_ID,
-//   "PASSWORD": process.env.REACT_APP_PASSWORD,
-//   "CLASS": process.env.REACT_APP_CLASS 
-// }
-
-// console.log(await getTimetableAndChanges(loginInfo)); // Test output
-// Export
+  // Testing Example:
+  // const loginInfo =  {
+  //   "SEMEL": process.env.REACT_APP_SEMEL,
+  //   "ID": process.env.REACT_APP_ID,
+  //   "PASSWORD": process.env.REACT_APP_PASSWORD,
+  //   "CLASS": process.env.REACT_APP_CLASS 
+  // }
+  // console.log(await getTimetableAndChanges(loginInfo)); // Test output
+  // Export
 export default getTimetableAndChanges;

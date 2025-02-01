@@ -3,7 +3,7 @@ import HorizontalNavbar from "../HorizontalNavbar/HorizontalNavbar.jsx";  // Imp
 import VacationElement from "./VactionElement/VactionElement.jsx";  
 import TestsElement from "./TestsElement/TestsElement.jsx";
 import GradesElement from "./GradesElement/GradesElement.jsx";
-
+import TimetableElement from "./TimeTableElement/TimeTableElement.jsx";
 function PersonalPage() {
   const location = useLocation();  // Get the location object
   const personalData = location.state?.data;  // Access the personal data from the state
@@ -11,18 +11,17 @@ function PersonalPage() {
   console.log(pageState);
   let grades = "";
   let behavior = "";
-  let iscool = "";
+  let iscoolData = "";
   let mashovTimetable = "";
   if(localStorage.getItem("personalData") === null){
-    localStorage.setItem("personalData",JSON.stringify(personalData))
+    localStorage.setItem("personalData",JSON.stringify(personalData));
   }
   else{
     grades = JSON.parse(localStorage.getItem("personalData")).grades;
     behavior = JSON.parse(localStorage.getItem("personalData")).behavior;
-    iscool = JSON.parse(localStorage.getItem("personalData")).iscool;
+    iscoolData = JSON.parse(localStorage.getItem("personalData")).iscool;
     mashovTimetable = JSON.parse(localStorage.getItem("personalData")).mashovTimetable;
 
-    console.log(grades);
   }
   // Example of props to be passed to HorizontalNavbar
   const navbarProps = {
@@ -49,12 +48,17 @@ function PersonalPage() {
       break;
     case "/personal/tests":
       content = <TestsElement />;
+      
+      break;
+    case "/personal/timetable":
+      
+      content = <TimetableElement mashovAndIscoolTimetable={mashovTimetable} iscoolTimetable={iscoolData}/>
       break;
     case "/personal":
       content = (
         <div>
           <h1>Personal Data</h1>
-          {personalData ? (
+          {
             <div>
               <h2>Grades</h2>
               <pre>{ JSON.stringify(grades, null, 2)}</pre>
@@ -63,14 +67,12 @@ function PersonalPage() {
               <pre>{ JSON.stringify(behavior, null, 2)}</pre>
 
               <h2>IsCool Timetable and Changes</h2>
-              <pre>{ JSON.stringify(iscool, null, 2)}</pre>
+              <pre>{ JSON.stringify(iscoolData, null, 2)}</pre>
 
               <h2>Mashov Timetable</h2>
               <pre>{ JSON.stringify(mashovTimetable, null, 2)}</pre>
             </div>
-          ) : (
-            <p>No personal data available.</p>
-          )}
+          }
         </div>
       );
       break;
