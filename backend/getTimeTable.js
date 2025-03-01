@@ -13,33 +13,7 @@ const tableSelector = ".TTTable";
 const classSelectElm = "select";
 const changesTableSelector = ".DNNAlignright div div.placeholder div table";
 
-function parseScheduleData(data) {
-  const categorizedData = {};
 
-  data.forEach(item => {
-    const parts = item.split(',').map(part => part.trim());
-
-    const date = parts[0];
-    const lessonHour = parseInt(parts[1].replace('שעור ', ''));
-    const teacher = parts[2].includes('תוספת') ? null : parts[2];
-    const note = parts[3] || parts[2];
-
-    const typeOfChange = note.includes('ביטול') ? 'Cancellation' : note.includes('תוספת') ? 'Addition' : 'Note';
-
-    if (!categorizedData[date]) {
-      categorizedData[date] = [];
-    }
-
-    categorizedData[date].push({
-      typeOfChange,
-      teacherName: teacher,
-      lessonHour,
-      note
-    });
-  });
-
-  return categorizedData;
-}
 const awaitAndClick = async (page, selector) => {
     try {
       await page.waitForSelector(selector, {visible: true});
@@ -243,7 +217,6 @@ async function getTimetableAndChanges(credentials) {
   browser3.close();
   console.log(tableData)
   tableData = JSON.parse(tableData);
-  changesTable = parseScheduleData(changesTable);
   return [tableData,changesTable]
 
   }

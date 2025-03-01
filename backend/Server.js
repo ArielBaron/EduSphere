@@ -20,41 +20,19 @@ const getMashovTimetable = async(loginInfo) => {
 
 
     const timetable = await fetchTimetable(loginInfo);
-
+    console.log(timetable);
     // Process the timetable data
     const processedTimetable = timetable.map(obj => {
-      delete obj.groupDetails.groupInactiveTeachers;
-      delete obj.groupDetails.groupId;
-      delete obj.groupDetails.subjectName;
 
-      const { day, lesson } = obj.timeTable;
+      const { day, lesson, room } = obj.timeTable;
       obj.groupDetails.day = day;
       obj.groupDetails.lesson = lesson;
-      delete obj.timeTable;
-
-      const teacherNames = obj.groupDetails.groupTeachers.map(teacher => teacher.teacherName);
-      obj.groupDetails.teacherName = teacherNames.join(", ");
-      delete obj.groupDetails.groupTeachers;
-
+      obj.groupDetails.roomNum = room;
       return obj;
     });
+    console.log('\n\n\n'+" b:"+JSON.stringify(processedTimetable,2,null));
 
-    // Split timetableData into sublists based on the day property
-    const timetableByDay = {};
-    processedTimetable.forEach(obj => {
-      const { day, ...rest } = obj.groupDetails;
-      if (!timetableByDay[day]) {
-        timetableByDay[day] = [];
-      }
-      timetableByDay[day].push(rest);
-    });
-
-    // Sort by lesson
-    for (const day in timetableByDay) {
-      timetableByDay[day].sort((a, b) => a.lesson - b.lesson);
-    }
-
-    return timetableByDay;
+    return processedTimetable;
 };
 // Process and filter behavior data
 const getBehavior = async(loginInfo) => {
@@ -142,6 +120,7 @@ app.post('/submit', async (req, res) => {
   const gradesData = await getGrades(loginInfo);
   const behaviorData = await getBehavior(loginInfo);
   try {
+    throw Error;
     iscoolTimetableAndChangesData = await getIsCoolTimetableAndChanges(loginInfo);
   } catch (error) {
     iscoolTimetableAndChangesData = undefined;
